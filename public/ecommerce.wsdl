@@ -16,6 +16,7 @@
         </xsd:schema>
     </types>
 
+<!--
 	<message name="newRequest">
 		<part name="nom" type="xsd:string"/>
 		<part name="email" type="xsd:string"/>
@@ -30,23 +31,25 @@
     <message name="newResponse">
         <part name="return" type="xsd:string"/>
     </message>
-
-	
-	
+-->
 
     <portType name="ecommercewsdlPortType">
-       
+
+       <!--
 		<operation name="new">
             <documentation>ajouter un contact</documentation>
             <input message="tns:newRequest"/>
             <output message="tns:newResponse"/>
         </operation>
-		
+		-->
     </portType>
 
     <binding name="ecommercewsdlBinding" type="tns:ecommercewsdlPortType">
         <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
-       
+
+
+
+       <!--
 		<operation name="new">
             <soap:operation soapAction="urn:arnleadservicewsdl#new" style="rpc"/>
 
@@ -60,7 +63,7 @@
                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
-		
+		-->
     </binding>
 
     <service name="ecommercewsdl">
