@@ -16,42 +16,34 @@
         </xsd:schema>
     </types>
 
-<!--
-	<message name="newRequest">
-		<part name="nom" type="xsd:string"/>
-		<part name="email" type="xsd:string"/>
-		<part name="sujet" type="xsd:string"/>
-		<part name="message" type="xsd:string"/>
-		<part name="created" type="xsd:datetime"/>
-		<part name="modified" type="xsd:datetime"/>
-		<part name="public" type="xsd:boolean"/>
-		<part name="lu" type="xsd:boolean"/>
-    </message>
 
-    <message name="newResponse">
+
+    <message name="helloRequest">
+
+    </message>
+    <message name="helloResponse">
         <part name="return" type="xsd:string"/>
     </message>
--->
+
+
 
     <portType name="ecommercewsdlPortType">
 
-       <!--
-		<operation name="new">
-            <documentation>ajouter un contact</documentation>
-            <input message="tns:newRequest"/>
-            <output message="tns:newResponse"/>
+     <operation name="hello">
+            <documentation>Hello World</documentation>
+            <input message="tns:helloRequest"/>
+            <output message="tns:helloResponse"/>
         </operation>
-		-->
+
+
     </portType>
 
     <binding name="ecommercewsdlBinding" type="tns:ecommercewsdlPortType">
         <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
 
 
-
-       <!--
-		<operation name="new">
-            <soap:operation soapAction="urn:arnleadservicewsdl#new" style="rpc"/>
+         <operation name="hello">
+            <soap:operation soapAction="urn:arnleadservicewsdl#hello" style="rpc"/>
 
             <input>
                 <soap:body use="encoded" namespace="urn:ecommercewsdl"
@@ -63,7 +55,6 @@
                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
-		-->
     </binding>
 
     <service name="ecommercewsdl">
