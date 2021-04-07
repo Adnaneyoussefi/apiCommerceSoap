@@ -36,6 +36,15 @@ class CommerceService
         return "l'ajout avec succés!";
     }
 
+    public function updateCategorie($id, $nom){
+
+        $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
+        $categorie->setNom($nom);
+        $this->entityManager->persist($categorie);
+        $this->entityManager->flush();
+        return "modification avec succés !";  
+    }
+
     public function deleteCategorie($id){
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
         $this->entityManager->remove($categorie);
