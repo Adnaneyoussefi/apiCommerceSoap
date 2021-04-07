@@ -111,6 +111,19 @@
     <message name="ajouterProduitResponse">
         <part name="return" type="xsd:string"/>
     </message>
+<!--editer catégorie-->
+    <message name="editerProduitRequest">
+        <part name="id" type="xsd:string"/>
+        <part name="nom" type="xsd:string"/>
+        <part name="description" type="xsd:string"/>
+        <part name="prix" type="xsd:float"/>
+        <part name="image" type="xsd:string"/>
+        <part name="quantite" type="xsd:int"/>
+        <part name="categorie_id" type="xsd:string"/>
+    </message>
+    <message name="editerProduitResponse">
+        <part name="return" type="xsd:string"/>
+    </message>    
 <!--supprimer catégorie-->
     <message name="supprimerProduitRequest">
         <part name="id" type="xsd:string"/>
@@ -169,6 +182,12 @@
             <input message="tns:ajouterProduitRequest"/>
             <output message="tns:ajouterProduitResponse"/>
         </operation> 
+
+        <operation name="updateProduit">
+            <documentation>editer un produit</documentation>
+            <input message="tns:editerProduitRequest"/>
+            <output message="tns:editerProduitResponse"/>
+        </operation>
 
         <operation name="deleteProduit">
             <documentation>Supprimer un produit</documentation>
@@ -268,6 +287,18 @@
 
         <operation name="addNewProduit">
         <soap:operation soapAction="urn:commerceservicewsdl#addNewProduitServeur" style="rpc"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+
+        <operation name="updateProduit">
+        <soap:operation soapAction="urn:commerceservicewsdl#updateProduitServeur" style="rpc"/>
             <input>
                 <soap:body use="encoded" namespace="urn:commerceservicewsdl"
                 encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>

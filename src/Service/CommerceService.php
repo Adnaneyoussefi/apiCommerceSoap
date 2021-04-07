@@ -37,7 +37,6 @@ class CommerceService
     }
 
     public function updateCategorie($id, $nom){
-
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
         $categorie->setNom($nom);
         $this->entityManager->persist($categorie);
@@ -77,6 +76,20 @@ class CommerceService
         $this->entityManager->persist($produit);
         $this->entityManager->flush();
         return "l'ajout du produit avec succés!";
+    }
+
+    public function updateProduit($id, $nom, $description, $prix, $image, $quantite, $categorie_id) {
+        $produit = $this->entityManager->getRepository(Produit::class)->find($id);
+        $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
+        $produit->setNom($nom)
+                ->setDescription($description)
+                ->setPrix($prix)
+                ->setImage($image)
+                ->setQuantite($quantite)
+                ->setCategorie($categorie);
+        $this->entityManager->persist($produit);
+        $this->entityManager->flush();
+        return "modification avec succés !";
     }
 
     public function deleteProduit($id) {
