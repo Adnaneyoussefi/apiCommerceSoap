@@ -28,7 +28,6 @@ class CommerceService
         return $categories;
     }
 
-
     public function addNewCategorie($nom){
         $categorie = new Categorie();
         $categorie->setNom($nom);
@@ -51,6 +50,12 @@ class CommerceService
         return $produit;
     }
 
+    public function getListProduits()
+    {
+        $produits = $this->entityManager->getRepository(Produit::class)->findAll();
+        return $produits;
+    }
+
     public function addNewProduit($nom, $description, $prix, $image, $quantite, $categorie_id){
         $produit = new Produit();
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
@@ -63,5 +68,12 @@ class CommerceService
         $this->entityManager->persist($produit);
         $this->entityManager->flush();
         return "l'ajout du produit avec succés!";
+    }
+
+    public function deleteProduit($id) {
+        $produit = $this->entityManager->getRepository(Produit::class)->find($id);
+        $this->entityManager->remove($produit);
+        $this->entityManager->flush();
+        return "supression du produit avec succés!";
     }
 }

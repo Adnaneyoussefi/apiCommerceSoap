@@ -40,21 +40,33 @@
                     <xsd:element name="categorie" type="xsd:string"/>
                 </xsd:all>
             </xsd:complexType>
+
+            <xsd:complexType name="ListeProduits">
+                <xsd:complexContent>
+                    <xsd:restriction base="SOAP-ENC:Array">
+                        <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Produit[]"/>
+                    </xsd:restriction>
+                </xsd:complexContent>
+            </xsd:complexType>
         </xsd:schema>
     </types>
 <!--get catégorie-->
     <message name="getCategorieByIdRequest">
         <part name="id" type="xsd:string"/>
     </message>
-
     <message name="getCategorieByIdResponse">
         <part name="return" type="tns:Categorie"/>
+    </message>
+<!--get list catégories-->
+    <message name="getListCategoriesRequest">
+    </message>
+    <message name="getListCategoriesResponse">
+        <part name="return" type="tns:ListeCategories"/>
     </message>
 <!--ajouter catégorie-->
     <message name="ajouterCategorieRequest">
         <part name="nom" type="xsd:string"/>
     </message>
-
     <message name="ajouterCategorieResponse">
         <part name="return" type="xsd:string"/>
     </message>
@@ -62,25 +74,22 @@
     <message name="supprimerCategorieRequest">
         <part name="id" type="xsd:string"/>
     </message>
-
     <message name="supprimerCategorieResponse">
         <part name="return" type="xsd:string"/>
-    </message>
-<!--get list catégories-->
-    <message name="getListCategoriesRequest">
-    </message>
-
-    <message name="getListCategoriesResponse">
-        <part name="return" type="tns:ListeCategories"/>
     </message>
 
 <!--get produit-->
     <message name="getProduitByIdRequest">
         <part name="id" type="xsd:string"/>
     </message>
-
     <message name="getProduitByIdResponse">
         <part name="return" type="tns:Produit"/>
+    </message>
+<!--get list produits-->
+    <message name="getListProduitsRequest">
+    </message>
+    <message name="getListProduitsResponse">
+        <part name="return" type="tns:ListeProduits"/>
     </message>
 <!--ajouter produit-->
     <message name="ajouterProduitRequest">
@@ -91,10 +100,16 @@
         <part name="quantite" type="xsd:int"/>
         <part name="categorie_id" type="xsd:string"/>
     </message>
-
     <message name="ajouterProduitResponse">
         <part name="return" type="xsd:string"/>
-    </message>    
+    </message>
+<!--supprimer catégorie-->
+    <message name="supprimerProduitRequest">
+        <part name="id" type="xsd:string"/>
+    </message>
+    <message name="supprimerProduitResponse">
+        <part name="return" type="xsd:string"/>
+    </message> 
 
     <portType name="commercewsdlPortType">
 <!--Categorie-->
@@ -116,7 +131,7 @@
             <output message="tns:ajouterCategorieResponse"/>
         </operation>
 
-         <operation name="deleteCategorie">
+        <operation name="deleteCategorie">
             <documentation>Supprimer une categorie</documentation>
             <input message="tns:supprimerCategorieRequest"/>
             <output message="tns:supprimerCategorieResponse"/>
@@ -126,13 +141,25 @@
             <documentation>Return un produit</documentation>
             <input message="tns:getProduitByIdRequest"/>
             <output message="tns:getProduitByIdResponse"/>
-        </operation>   
+        </operation>  
+
+        <operation name="getListProduits">
+            <documentation>Return la liste des produits</documentation>
+            <input message="tns:getListProduitsRequest"/>
+            <output message="tns:getListProduitsResponse"/>
+        </operation> 
 
         <operation name="addNewProduit">
             <documentation>Ajouter un produit</documentation>
             <input message="tns:ajouterProduitRequest"/>
             <output message="tns:ajouterProduitResponse"/>
         </operation> 
+
+        <operation name="deleteProduit">
+            <documentation>Supprimer un produit</documentation>
+            <input message="tns:supprimerProduitRequest"/>
+            <output message="tns:supprimerProduitResponse"/>
+        </operation>
     </portType>
 
     <binding name="commercewsdlBinding" type="tns:commercewsdlPortType">
@@ -199,8 +226,32 @@
             </output>
         </operation>
 
+        <operation name="getListProduits">
+        <soap:operation soapAction="urn:commerceservicewsdl#getListProduitsServeur" style="rpc"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+
         <operation name="addNewProduit">
         <soap:operation soapAction="urn:commerceservicewsdl#addNewProduitServeur" style="rpc"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+
+        <operation name="deleteProduit">
+        <soap:operation soapAction="urn:commerceservicewsdl#deleteProduitServeur" style="rpc"/>
             <input>
                 <soap:body use="encoded" namespace="urn:commerceservicewsdl"
                 encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
