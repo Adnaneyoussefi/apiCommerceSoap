@@ -17,11 +17,6 @@ class CommerceService
         $this->entityManager = $entityManager;
     }
 
-    public function getProduits()
-    {
-        $produits = $this->entityManager->getRepository(Produit::class)->findAll();
-        return $produits;
-    }
 
     public function getCategorieById($id)
     {
@@ -29,9 +24,24 @@ class CommerceService
         return $categorie;
     }
 
-    public function getListCategories()
+     public function getListCategories()
     {
         $categories = $this->entityManager->getRepository(Categorie::class)->findAll();
         return $categories;
+    }
+
+    public function addNewCategorie($nom){
+        $categorie = new Categorie();
+        $categorie->setNom($nom);
+        $this->entityManager->persist($categorie);
+        $this->entityManager->flush();
+        return "l'ajout avec succés!";
+    }
+
+    public function deleteCategorie($id){
+        $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
+        $this->entityManager->remove($categorie);
+        $this->entityManager->flush();
+        return "supression avec succés!";
     }
 }
