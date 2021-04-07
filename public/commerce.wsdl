@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:tns="urn:commerceservicewsdl"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    targetNamespace="urn:commerceservicewsdl">
+
+    <types>
+        <xsd:schema targetNamespace="urn:commerceservicewsdl">
+            <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+            <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+
+            <xsd:complexType name="Categorie">
+                <xsd:all>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="nom" type="xsd:string"/>
+                </xsd:all>
+            </xsd:complexType>    
+        </xsd:schema>
+    </types>
+
+    <message name="getCategorieByIdRequest">
+        <part name="id" type="xsd:string"/>
+    </message>
+
+    <message name="getCategorieByIdResponse">
+        <part name="return" type="tns:Categorie"/>
+    </message>
+
+    <portType name="commercewsdlPortType">
+        <operation name="getCategorieById">
+            <documentation>Return une categorie</documentation>
+            <input message="tns:getCategorieByIdRequest"/>
+            <output message="tns:getCategorieByIdResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="commercewsdlBinding" type="tns:commercewsdlPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="getCategorieById">
+        <soap:operation soapAction="urn:commerceservicewsdl#getCategorieByIdServeur" style="rpc"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="commercewsdl">
+        <port name="commercewsdlPort" binding="tns:commercewsdlBinding">
+            <soap:address location="http://127.0.0.1:8000/soap"/>
+        </port>
+    </service>
+</definitions>
