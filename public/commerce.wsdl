@@ -42,7 +42,7 @@
             </xsd:complexType>
         </xsd:schema>
     </types>
-
+<!--get catégorie-->
     <message name="getCategorieByIdRequest">
         <part name="id" type="xsd:string"/>
     </message>
@@ -50,7 +50,23 @@
     <message name="getCategorieByIdResponse">
         <part name="return" type="tns:Categorie"/>
     </message>
+<!--ajouter catégorie-->
+    <message name="ajouterCategorieRequest">
+        <part name="nom" type="xsd:string"/>
+    </message>
 
+    <message name="ajouterCategorieResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+<!--supprimer catégorie-->
+    <message name="supprimerCategorieRequest">
+        <part name="id" type="xsd:string"/>
+    </message>
+
+    <message name="supprimerCategorieResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+<!--get list catégories-->
     <message name="getListCategoriesRequest">
     </message>
 
@@ -58,6 +74,7 @@
         <part name="return" type="tns:ListeCategories"/>
     </message>
 
+<!--get produit-->
     <message name="getProduitByIdRequest">
         <part name="id" type="xsd:string"/>
     </message>
@@ -65,8 +82,22 @@
     <message name="getProduitByIdResponse">
         <part name="return" type="tns:Produit"/>
     </message>
+<!--ajouter produit-->
+    <message name="ajouterProduitRequest">
+        <part name="nom" type="xsd:string"/>
+        <part name="description" type="xsd:string"/>
+        <part name="prix" type="xsd:float"/>
+        <part name="image" type="xsd:string"/>
+        <part name="quantite" type="xsd:int"/>
+        <part name="categorie_id" type="xsd:string"/>
+    </message>
+
+    <message name="ajouterProduitResponse">
+        <part name="return" type="xsd:string"/>
+    </message>    
 
     <portType name="commercewsdlPortType">
+<!--Categorie-->
         <operation name="getCategorieById">
             <documentation>Return une categorie</documentation>
             <input message="tns:getCategorieByIdRequest"/>
@@ -79,15 +110,34 @@
             <output message="tns:getListCategoriesResponse"/>
         </operation>
 
+        <operation name="addNewCategorie">
+            <documentation>Ajouter une categorie</documentation>
+            <input message="tns:ajouterCategorieRequest"/>
+            <output message="tns:ajouterCategorieResponse"/>
+        </operation>
+
+         <operation name="deleteCategorie">
+            <documentation>Supprimer une categorie</documentation>
+            <input message="tns:supprimerCategorieRequest"/>
+            <output message="tns:supprimerCategorieResponse"/>
+        </operation>
+<!--Produit-->
         <operation name="getProduitById">
             <documentation>Return un produit</documentation>
             <input message="tns:getProduitByIdRequest"/>
             <output message="tns:getProduitByIdResponse"/>
-        </operation>
+        </operation>   
+
+        <operation name="addNewProduit">
+            <documentation>Ajouter un produit</documentation>
+            <input message="tns:ajouterProduitRequest"/>
+            <output message="tns:ajouterProduitResponse"/>
+        </operation> 
     </portType>
 
     <binding name="commercewsdlBinding" type="tns:commercewsdlPortType">
         <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+<!--Categorie-->
         <operation name="getCategorieById">
         <soap:operation soapAction="urn:commerceservicewsdl#getCategorieByIdServeur" style="rpc"/>
             <input>
@@ -112,6 +162,31 @@
             </output>
         </operation>
 
+        <operation name="addNewCategorie">
+        <soap:operation soapAction="urn:commerceservicewsdl#addNewCategorieServeur" style="rpc"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+
+        <operation name="deleteCategorie">
+        <soap:operation soapAction="urn:commerceservicewsdl#deleteCategorieServeur" style="rpc"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+
+<!--Produit-->
         <operation name="getProduitById">
         <soap:operation soapAction="urn:commerceservicewsdl#getProduitByIdServeur" style="rpc"/>
             <input>
@@ -123,6 +198,19 @@
                 encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
+
+        <operation name="addNewProduit">
+        <soap:operation soapAction="urn:commerceservicewsdl#addNewProduitServeur" style="rpc"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        
     </binding>
 
     <service name="commercewsdl">
