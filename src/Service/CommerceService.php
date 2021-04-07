@@ -17,12 +17,6 @@ class CommerceService
         $this->entityManager = $entityManager;
     }
 
-    public function getProduits()
-    {
-        $produits = $this->entityManager->getRepository(Produit::class)->findAll();
-        return $produits;
-    }
-
     public function getCategorieById($id)
     {
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
@@ -33,5 +27,11 @@ class CommerceService
     {
         $categories = $this->entityManager->getRepository(Categorie::class)->findAll();
         return $categories;
+    }
+
+    public function getProduitById($id)
+    {
+        $produit = $this->entityManager->getRepository(Produit::class)->find($id);
+        return $produit;
     }
 }

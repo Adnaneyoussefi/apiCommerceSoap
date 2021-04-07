@@ -29,6 +29,17 @@
                 </xsd:complexContent>
             </xsd:complexType>  
 
+            <xsd:complexType name="Produit">
+                <xsd:all>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="nom" type="xsd:string"/>
+                    <xsd:element name="description" type="xsd:string"/>
+                    <xsd:element name="prix" type="xsd:float"/>
+                    <xsd:element name="image" type="xsd:string"/>
+                    <xsd:element name="quantite" type="xsd:int"/>
+                    <xsd:element name="categorie" type="xsd:string"/>
+                </xsd:all>
+            </xsd:complexType>
         </xsd:schema>
     </types>
 
@@ -47,6 +58,14 @@
         <part name="return" type="tns:ListeCategories"/>
     </message>
 
+    <message name="getProduitByIdRequest">
+        <part name="id" type="xsd:string"/>
+    </message>
+
+    <message name="getProduitByIdResponse">
+        <part name="return" type="tns:Produit"/>
+    </message>
+
     <portType name="commercewsdlPortType">
         <operation name="getCategorieById">
             <documentation>Return une categorie</documentation>
@@ -58,6 +77,12 @@
             <documentation>Return la liste des categories</documentation>
             <input message="tns:getListCategoriesRequest"/>
             <output message="tns:getListCategoriesResponse"/>
+        </operation>
+
+        <operation name="getProduitById">
+            <documentation>Return un produit</documentation>
+            <input message="tns:getProduitByIdRequest"/>
+            <output message="tns:getProduitByIdResponse"/>
         </operation>
     </portType>
 
@@ -77,6 +102,18 @@
 
         <operation name="getListCategories">
         <soap:operation soapAction="urn:commerceservicewsdl#getListCategoriesServeur" style="rpc"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+
+        <operation name="getProduitById">
+        <soap:operation soapAction="urn:commerceservicewsdl#getProduitByIdServeur" style="rpc"/>
             <input>
                 <soap:body use="encoded" namespace="urn:commerceservicewsdl"
                 encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
