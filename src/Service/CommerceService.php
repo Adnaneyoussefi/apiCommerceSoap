@@ -28,4 +28,10 @@ class CommerceService
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
         return $categorie;
     }
+
+    public function getListCategories()
+    {
+        $categories = $this->entityManager->getRepository(Categorie::class)->findAll();
+        return $categories;
+    }
 }

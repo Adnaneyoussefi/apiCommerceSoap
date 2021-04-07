@@ -19,7 +19,16 @@
                     <xsd:element name="id" type="xsd:int"/>
                     <xsd:element name="nom" type="xsd:string"/>
                 </xsd:all>
-            </xsd:complexType>    
+            </xsd:complexType>  
+
+            <xsd:complexType name="ListeCategories">
+                <xsd:complexContent>
+                    <xsd:restriction base="SOAP-ENC:Array">
+                        <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Categorie[]"/>
+                    </xsd:restriction>
+                </xsd:complexContent>
+            </xsd:complexType>  
+
         </xsd:schema>
     </types>
 
@@ -31,11 +40,24 @@
         <part name="return" type="tns:Categorie"/>
     </message>
 
+    <message name="getListCategoriesRequest">
+    </message>
+
+    <message name="getListCategoriesResponse">
+        <part name="return" type="tns:ListeCategories"/>
+    </message>
+
     <portType name="commercewsdlPortType">
         <operation name="getCategorieById">
             <documentation>Return une categorie</documentation>
             <input message="tns:getCategorieByIdRequest"/>
             <output message="tns:getCategorieByIdResponse"/>
+        </operation>
+
+        <operation name="getListCategories">
+            <documentation>Return la liste des categories</documentation>
+            <input message="tns:getListCategoriesRequest"/>
+            <output message="tns:getListCategoriesResponse"/>
         </operation>
     </portType>
 
@@ -43,6 +65,18 @@
         <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
         <operation name="getCategorieById">
         <soap:operation soapAction="urn:commerceservicewsdl#getCategorieByIdServeur" style="rpc"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
+                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+
+        <operation name="getListCategories">
+        <soap:operation soapAction="urn:commerceservicewsdl#getListCategoriesServeur" style="rpc"/>
             <input>
                 <soap:body use="encoded" namespace="urn:commerceservicewsdl"
                 encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
