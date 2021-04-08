@@ -162,7 +162,6 @@ class Produit
                 $commande->setProduit(null);
             }
         }
-
         return $this;
     }
 }

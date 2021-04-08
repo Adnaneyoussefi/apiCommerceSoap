@@ -59,6 +59,13 @@ class Categorie
         return $this->produits;
     }
 
+    public function setProduits(array $produits): self
+    {
+        $this->produits = $produits;
+
+        return $this;
+    }
+
     public function addProduit(Produit $produit): self
     {
         if (!$this->produits->contains($produit)) {
@@ -77,11 +84,6 @@ class Categorie
                 $produit->setCategorie(null);
             }
         }
-
         return $this;
-    }
-    public function __toString(): ?string
-    {
-        return $this->id;
     }
 }

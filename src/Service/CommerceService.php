@@ -25,6 +25,9 @@ class CommerceService
     public function getListCategories()
     {
         $categories = $this->entityManager->getRepository(Categorie::class)->findAll();
+        foreach($categories as $c) {
+            $c->setProduits($c->getProduits()->toArray());
+        }
         return $categories;
     }
 
