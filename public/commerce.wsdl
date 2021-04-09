@@ -19,7 +19,7 @@
                     <xsd:element name="id" type="xsd:int"/>
                     <xsd:element name="nom" type="xsd:string"/>
                 </xsd:all>
-            </xsd:complexType>  
+            </xsd:complexType>
 
             <xsd:complexType name="ListeCategories">
                 <xsd:complexContent>
@@ -27,7 +27,7 @@
                         <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Categorie[]"/>
                     </xsd:restriction>
                 </xsd:complexContent>
-            </xsd:complexType>  
+            </xsd:complexType>
 
             <xsd:complexType name="Produit">
                 <xsd:all>
