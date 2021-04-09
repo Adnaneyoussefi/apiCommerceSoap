@@ -18,6 +18,7 @@
                 <xsd:all>
                     <xsd:element name="id" type="xsd:int"/>
                     <xsd:element name="nom" type="xsd:string"/>
+                    <xsd:element name="produits" type="tns:ListeProduits"/>
                 </xsd:all>
             </xsd:complexType>
 
@@ -37,7 +38,7 @@
                     <xsd:element name="prix" type="xsd:float"/>
                     <xsd:element name="image" type="xsd:string"/>
                     <xsd:element name="quantite" type="xsd:int"/>
-                    <xsd:element name="categorie" type="xsd:string"/>
+                    <xsd:element name="categorie" type="xsd:Categorie"/>
                 </xsd:all>
             </xsd:complexType>
 
