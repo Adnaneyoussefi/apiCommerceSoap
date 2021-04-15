@@ -6,6 +6,7 @@ use App\Entity\Produit;
 use App\Entity\Categorie;
 use App\Service\CommerceService;
 use App\Repository\ProduitRepository;
+use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,11 +35,14 @@ class CommerceController extends AbstractController
     /**
      * @Route("/go")
      */
-    public function afficher(ProduitRepository $productRepository)
+    public function afficher(CategorieRepository $productRepository)
     {
-        $produit = $productRepository
-            ->find(2);
-       // $produit = $entityManager->getRepository(Produit::class)->find(1);
+       /* $produit = $productRepository
+            ->find(1);*/
+       $produit = $productRepository->findAll();
+       foreach($produit as $c) {
+        $c->setProduits($c->getProduits()->toArray());
+    }
         dd($produit);
         return $this->json($categories);
     }

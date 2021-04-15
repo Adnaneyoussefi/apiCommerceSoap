@@ -14,6 +14,7 @@
             <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
             <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
 
+
             <xsd:complexType name="Categorie">
                 <xsd:all>
                     <xsd:element name="id" type="xsd:int"/>
