@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Message;
 use App\Entity\Produit;
 use App\Entity\Categorie;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,26 +33,44 @@ class CommerceService
     }
 
     public function addNewCategorie($nom){
+        try{
         $categorie = new Categorie();
         $categorie->setNom($nom);
         $this->entityManager->persist($categorie);
         $this->entityManager->flush();
-        return "l'ajout avec succés!";
+        $message = new Message(1,"OK");
+    }
+        catch(\Exception $e){
+            $message = new Message(2,"KO");
+        }
+        return $message;
     }
 
     public function updateCategorie($id, $nom){
+        try{
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
         $categorie->setNom($nom);
         $this->entityManager->persist($categorie);
         $this->entityManager->flush();
-        return "modification avec succés !";  
+        $message = new Message(1,"OK");
+    }
+        catch(\Exception $e){
+            $message = new Message(2,"KO");
+        }
+        return $message;
     }
 
     public function deleteCategorie($id){
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
-        $this->entityManager->remove($categorie);
-        $this->entityManager->flush();
-        return "supression avec succés!";
+        try{
+            $this->entityManager->remove($categorie);
+            $this->entityManager->flush();
+            $message = new Message(1,"OK");
+        }
+        catch(\Exception $e){
+            //$message = new Message(2,"KO");
+        }
+        return $message;
     }
 
     //Produit
@@ -68,6 +87,7 @@ class CommerceService
     }
 
     public function addNewProduit($nom, $description, $prix, $image, $quantite, $categorie_id){
+        try {
         $produit = new Produit();
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
         $produit->setNom($nom)
@@ -78,10 +98,16 @@ class CommerceService
                 ->setCategorie($categorie);
         $this->entityManager->persist($produit);
         $this->entityManager->flush();
-        return "l'ajout du produit avec succés!";
+        $message = new Message(1,"OK");
+        }
+        catch(\Exception $e){
+            $message = new Message(2,"KO");
+        }
+        return $message;
     }
 
     public function updateProduit($id, $nom, $description, $prix, $image, $quantite, $categorie_id) {
+        try{
         $produit = $this->entityManager->getRepository(Produit::class)->find($id);
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
         $produit->setNom($nom)
@@ -92,13 +118,24 @@ class CommerceService
                 ->setCategorie($categorie);
         $this->entityManager->persist($produit);
         $this->entityManager->flush();
-        return "modification avec succés !";
+        $message = new Message(1,"OK");
+        }
+        catch(\Exception $e){
+            $message = new Message(2,"KO");
+        }
+        return $message;
     }
 
     public function deleteProduit($id) {
+        try{
         $produit = $this->entityManager->getRepository(Produit::class)->find($id);
         $this->entityManager->remove($produit);
         $this->entityManager->flush();
-        return "supression du produit avec succés!";
+        $message = new Message(1,"OK");
+        }
+        catch(\Exception $e){
+            $message = new Message(2,"KO");
+        }
+        return $message;
     }
 }
