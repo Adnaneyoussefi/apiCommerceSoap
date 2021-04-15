@@ -51,7 +51,10 @@ class CommerceService
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
         $this->entityManager->remove($categorie);
         $this->entityManager->flush();
-        return "supression avec succés!";
+        $message = new Message();
+        $message->setId(1);
+        $message->setMsg("OK");
+        return $msg;
     }
 
     //Produit

@@ -14,6 +14,16 @@
             <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
             <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
 
+
+            <xsd:complexType name="Message">
+                <xsd:all>
+                    <xsd:element name="code" type="xsd:int"/>
+                    <xsd:element name="msg" type="xsd:string"/>
+                </xsd:all>
+            </xsd:complexType>  
+
+
+
             <xsd:complexType name="Categorie">
                 <xsd:all>
                     <xsd:element name="id" type="xsd:int"/>
@@ -79,13 +89,13 @@
     <message name="editerCategorieResponse">
         <part name="return" type="xsd:string"/>
     </message>    
-<!--supprimer catégorie-->
-    <message name="supprimerCategorieRequest">
-        <part name="id" type="xsd:string"/>
-    </message>
-    <message name="supprimerCategorieResponse">
-        <part name="return" type="xsd:string"/>
-    </message>
+                                                        <!--supprimer catégorie-->
+                                                            <message name="supprimerCategorieRequest">
+                                                                <part name="id" type="xsd:string"/>
+                                                            </message>
+                                                            <message name="supprimerCategorieResponse">
+                                                                <part name="return" type="tns:Message"/>
+                                                            </message>
 
 <!--get produit-->
     <message name="getProduitByIdRequest">
