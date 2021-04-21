@@ -6,24 +6,23 @@ namespace App\Entity;
 
 class Message
 {
-
             private $code;
             private $msg;
 
 
-            public function __construct(int $code , string $message)
+            public function __construct(string $code , string $msg)
             {
                 $this->code = $code;
-                $this->message = $message;
+                $this->msg = $msg;
             }
 
 
-            public function getCode(): ?int
+            public function getCode(): ?string
             {
                 return $this->code;
             }
 
-            public function setId(int $code): self
+            public function setId(string $code): self
             {
                 $this->code = $code;
 

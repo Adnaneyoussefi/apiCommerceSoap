@@ -39,7 +39,7 @@ class CommerceService
         $this->entityManager->persist($categorie);
         $this->entityManager->flush();
         $message = new Message(1,"OK");
-    }
+        }
         catch(\Exception $e){
             $message = new Message(2,"KO");
         }

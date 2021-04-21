@@ -16,7 +16,7 @@
 
             <xsd:complexType name="Message">
                 <xsd:all>
-                    <xsd:element name="code" type="xsd:int"/>
+                    <xsd:element name="code" type="xsd:string"/>
                     <xsd:element name="msg" type="xsd:string"/>
                 </xsd:all>
             </xsd:complexType>
@@ -76,7 +76,7 @@
         <part name="nom" type="xsd:string"/>
     </message>
     <message name="ajouterCategorieResponse">
-        <part name="return" type="xsd:string"/>
+        <part name="return" type="tns:Message"/>
     </message>
 <!--editer catégorie-->
     <message name="editerCategorieRequest">
@@ -84,15 +84,15 @@
         <part name="nom" type="xsd:string"/>
     </message>
     <message name="editerCategorieResponse">
-        <part name="return" type="xsd:string"/>
-    </message>    
-                                                        <!--supprimer catégorie-->
-                                                            <message name="supprimerCategorieRequest">
-                                                                <part name="id" type="xsd:string"/>
-                                                            </message>
-                                                            <message name="supprimerCategorieResponse">
-                                                                <part name="return" type="tns:Message"/>
-                                                            </message>
+        <part name="return" type="tns:Message"/>
+    </message>
+    <!--supprimer catégorie-->
+        <message name="supprimerCategorieRequest">
+            <part name="id" type="xsd:string"/>
+        </message>
+        <message name="supprimerCategorieResponse">
+            <part name="return" type="tns:Message"/>
+        </message>
 
 <!--get produit-->
     <message name="getProduitByIdRequest">
@@ -117,7 +117,7 @@
         <part name="categorie_id" type="xsd:string"/>
     </message>
     <message name="ajouterProduitResponse">
-        <part name="return" type="xsd:string"/>
+        <part name="return" type="xsd:Message"/>
     </message>
 <!--editer catégorie-->
     <message name="editerProduitRequest">
@@ -130,15 +130,15 @@
         <part name="categorie_id" type="xsd:string"/>
     </message>
     <message name="editerProduitResponse">
-        <part name="return" type="xsd:string"/>
-    </message>    
-<!--supprimer catégorie-->
+        <part name="return" type="tns:Message"/>
+    </message>
+<!--supprimer produit-->
     <message name="supprimerProduitRequest">
         <part name="id" type="xsd:string"/>
     </message>
     <message name="supprimerProduitResponse">
-        <part name="return" type="xsd:string"/>
-    </message> 
+        <part name="return" type="tns:Message"/>
+    </message>
 
     <portType name="commercewsdlPortType">
 <!--Categorie-->
