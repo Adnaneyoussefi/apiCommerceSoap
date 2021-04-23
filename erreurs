@@ -1,0 +1,27 @@
+addNewCategorie
+    F-111 : nom de la categorie
+    T-111 : erreur dans la base de donnée
+
+addNewProduit
+    F-110 : le nom est non valide
+    F-111 : la description est non valide
+    F-112 : le prix est non valide
+    F-113 : l'image est non valide
+    F-114 : le quantite est non valide
+    F-115 : le categorie_id est non valide
+    T-222 : Erreur dans la base de donnée
+
+updateProduit
+    F-110 : l'id n'est pas valide
+    F-116 : le nom est non valide
+    F-117 : la description est non valide
+    F-118 : le prix est non valide
+    F-119 : l'image est non valide
+    F-120 : le quantite est non valide
+    F-121 : le categorie_id est non valide
+    T-221 : Erreur dans la base de donnée
+
+updateCategorie
+    F-122 : l'id de la categorie n'est pas valide
+    F-123 : nom de la categorie n'est pas valide
+    T-223 : erreur dans la base de donnée
