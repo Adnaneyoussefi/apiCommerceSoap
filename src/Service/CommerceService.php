@@ -20,6 +20,9 @@ class CommerceService
     public function getCategorieById($id)
     {
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
+        if(!isset($categorie) && empty($categorie)){
+            $message=new Message("T-111","data base problem");
+        }
         return $categorie;
     }
 
@@ -47,28 +50,30 @@ class CommerceService
     }
 
     public function updateCategorie($id, $nom){
-        try{
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
+
+        if(isset($categorie) && !empty($categorie)){
+        $message = new Message(1,"OK");
         $categorie->setNom($nom);
         $this->entityManager->persist($categorie);
         $this->entityManager->flush();
-        $message = new Message(1,"OK");
-    }
-        catch(\Exception $e){
-            $message = new Message(2,"KO");
         }
+    else{
+        $message=new Message("T-111","data base problem");
+    }
+
         return $message;
     }
 
     public function deleteCategorie($id){
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
-        try{
+        if(isset($categorie) && !empty($categorie)){
             $this->entityManager->remove($categorie);
             $this->entityManager->flush();
             $message = new Message(1,"OK");
         }
-        catch(\Exception $e){
-            //$message = new Message(2,"KO");
+        else{
+            $message=new Message("T-111","data base problem");
         }
         return $message;
     }
@@ -121,20 +126,20 @@ class CommerceService
         $message = new Message(1,"OK");
         }
         catch(\Exception $e){
-            $message = new Message(2,"KO");
+        $message = new Message(2,"KO");
         }
         return $message;
     }
 
     public function deleteProduit($id) {
-        try{
         $produit = $this->entityManager->getRepository(Produit::class)->find($id);
-        $this->entityManager->remove($produit);
-        $this->entityManager->flush();
-        $message = new Message(1,"OK");
+        if(isset($produit) && !empty($produit)){
+            $this->entityManager->remove($produit);
+            $this->entityManager->flush();
+            $message = new Message(1,"OK");
         }
-        catch(\Exception $e){
-            $message = new Message(2,"KO");
+        else{
+            $message=new Message("T-111","database problem");
         }
         return $message;
     }
