@@ -34,10 +34,10 @@ class CommerceService
         }
         return $categories;
     }
- 
+
     public function addNewCategorie($nom){
         try{
-        if(!isset($nom) && empty($nom)){
+        if(!isset($nom) || empty($nom)){
             $message = new Message("F-111","le nom de la categorie est non valide");
         }
         else{
@@ -56,10 +56,10 @@ class CommerceService
 
     public function updateCategorie($id, $nom){
     try{
-        if(!isset($id) && empty($id)){
+        if(!isset($id) || empty($id)){
             $message = new Message("F-122","l'id de la categorie est non valide");
         }
-        if(!isset($nom) && empty($nom)){
+        if(!isset($nom) || empty($nom)){
             $message = new Message("F-123","le nom de la categorie est non valide");
         }
         else{
@@ -104,27 +104,30 @@ class CommerceService
 
     public function addNewProduit($nom, $description, $prix, $image, $quantite, $categorie_id){
     try {
-        if(!isset($nom) && empty($nom)){
+        $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
+        if($categorie == null){
+        $message = new Message("F-110","la categorie n'existe pas");
+        }
+        else if(!isset($nom) || empty($nom)){
             $message = new Message("F-110","le nom est non valide");
         }
-        else if(!isset($description) && empty($description)){
+        else if(!isset($description) || empty($description)){
             $message = new Message("F-111","la description est non valide");
         }
-        else if(!isset($prix) && empty($prix)){
+        else if(!isset($prix) || empty($prix)){
             $message = new Message("F-112","le prix est non valide");
         }
-        else if(!isset($image) && empty($image)){
+        else if(!isset($image) || empty($image)){
             $message = new Message("F-113","l'image est non valide");
         }
-        else if(!isset($quantite) && empty($quantite)){
+        else if(!isset($quantite) || empty($quantite)){
             $message = new Message("F-114","le quantite est non valide");
         }
-        else if(!isset($categorie_id) && empty($categorie_id)){
+        else if(!isset($categorie_id) || empty($categorie_id)){
             $message = new Message("F-115","le categorie_id est non valide");
         }
         else {
         $produit = new Produit();
-        $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
         $produit->setNom($nom)
                 ->setDescription($description)
                 ->setPrix($prix)
@@ -144,30 +147,36 @@ class CommerceService
 
     public function updateProduit($id, $nom, $description, $prix, $image, $quantite, $categorie_id) {
         try{
-            if(!isset($id) && empty($id)){
+            $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
+            $produit = $this->entityManager->getRepository(Produit::class)->find($id);
+            if($categorie == null){
+                $message = new Message("F-110","la categorie n'existe pas");
+            }
+            else if($produit == null){
+                $message = new Message("F-110","le produit n'existe pas");
+            }
+            else if(!isset($id) || empty($id)){
                 $message = new Message("F-110","l'id est non valide");
             }
-            else if(!isset($nom) && empty($nom)){
+            else if(!isset($nom) || empty($nom)){
                 $message = new Message("F-116","le nom est non valide");
             }
-            else if(!isset($description) && empty($description)){
+            else if(!isset($description) || empty($description)){
                 $message = new Message("F-117","la description est non valide");
             }
-            else if(!isset($prix) && empty($prix)){
+            else if(!isset($prix) || empty($prix)){
                 $message = new Message("F-118","le prix est non valide");
             }
-            else if(!isset($image) && empty($image)){
+            else if(!isset($image) || empty($image)){
                 $message = new Message("F-119","l'image est non valide");
             }
-            else if(!isset($quantite) && empty($quantite)){
+            else if(!isset($quantite) || empty($quantite)){
                 $message = new Message("F-120","le quantite est non valide");
             }
-            else if(!isset($categorie_id) && empty($categorie_id)){
+            else if(!isset($categorie_id) || empty($categorie_id)){
                 $message = new Message("F-121","le categorie_id est non valide");
             }
             else {
-                $produit = $this->entityManager->getRepository(Produit::class)->find($id);
-                $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
                 $produit->setNom($nom)
                         ->setDescription($description)
                         ->setPrix($prix)
@@ -188,7 +197,10 @@ class CommerceService
 
     public function deleteProduit($id) {
         $produit = $this->entityManager->getRepository(Produit::class)->find($id);
-        if(isset($produit) && !empty($produit)){
+        if($produit == null){
+            $message = new Message("F-110","le produit n'existe pas");
+        }
+        else if(isset($produit) && !empty($produit)){
             $this->entityManager->remove($produit);
             $this->entityManager->flush();
             $message = new Message(1,"OK");
