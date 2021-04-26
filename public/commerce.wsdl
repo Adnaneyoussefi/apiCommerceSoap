@@ -6,8 +6,7 @@
     xmlns:tns="urn:commerceservicewsdl"
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-    xmlns="http://schemas.xmlsoap.org/wsdl/"
-    targetNamespace="urn:commerceservicewsdl">
+    xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:commerceservicewsdl">
 
     <types>
         <xsd:schema targetNamespace="urn:commerceservicewsdl">
@@ -20,6 +19,7 @@
                     <xsd:element name="msg" type="xsd:string"/>
                 </xsd:all>
             </xsd:complexType>
+
 
             <xsd:complexType name="Categorie">
                 <xsd:all>
@@ -58,27 +58,27 @@
             </xsd:complexType>
         </xsd:schema>
     </types>
-<!--get catégorie-->
+    <!--get catégorie-->
     <message name="getCategorieByIdRequest">
         <part name="id" type="xsd:string"/>
     </message>
     <message name="getCategorieByIdResponse">
         <part name="return" type="tns:Categorie"/>
     </message>
-<!--get list catégories-->
+    <!--get list catégories-->
     <message name="getListCategoriesRequest">
     </message>
     <message name="getListCategoriesResponse">
         <part name="return" type="tns:ListeCategories"/>
     </message>
-<!--ajouter catégorie-->
+    <!--ajouter catégorie-->
     <message name="ajouterCategorieRequest">
         <part name="nom" type="xsd:string"/>
     </message>
     <message name="ajouterCategorieResponse">
         <part name="return" type="tns:Message"/>
     </message>
-<!--editer catégorie-->
+    <!--editer catégorie-->
     <message name="editerCategorieRequest">
         <part name="id" type="xsd:string"/>
         <part name="nom" type="xsd:string"/>
@@ -87,27 +87,27 @@
         <part name="return" type="tns:Message"/>
     </message>
     <!--supprimer catégorie-->
-        <message name="supprimerCategorieRequest">
-            <part name="id" type="xsd:string"/>
-        </message>
-        <message name="supprimerCategorieResponse">
-            <part name="return" type="tns:Message"/>
-        </message>
+    <message name="supprimerCategorieRequest">
+        <part name="id" type="xsd:string"/>
+    </message>
+    <message name="supprimerCategorieResponse">
+        <part name="return" type="tns:Message"/>
+    </message>
 
-<!--get produit-->
+    <!--get produit-->
     <message name="getProduitByIdRequest">
         <part name="id" type="xsd:string"/>
     </message>
     <message name="getProduitByIdResponse">
         <part name="return" type="tns:Produit"/>
     </message>
-<!--get list produits-->
+    <!--get list produits-->
     <message name="getListProduitsRequest">
     </message>
     <message name="getListProduitsResponse">
         <part name="return" type="tns:ListeProduits"/>
     </message>
-<!--ajouter produit-->
+    <!--ajouter produit-->
     <message name="ajouterProduitRequest">
         <part name="nom" type="xsd:string"/>
         <part name="description" type="xsd:string"/>
@@ -119,7 +119,7 @@
     <message name="ajouterProduitResponse">
         <part name="return" type="xsd:Message"/>
     </message>
-<!--editer catégorie-->
+    <!--editer catégorie-->
     <message name="editerProduitRequest">
         <part name="id" type="xsd:string"/>
         <part name="nom" type="xsd:string"/>
@@ -132,7 +132,7 @@
     <message name="editerProduitResponse">
         <part name="return" type="tns:Message"/>
     </message>
-<!--supprimer produit-->
+    <!--supprimer produit-->
     <message name="supprimerProduitRequest">
         <part name="id" type="xsd:string"/>
     </message>
@@ -141,7 +141,7 @@
     </message>
 
     <portType name="commercewsdlPortType">
-<!--Categorie-->
+        <!--Categorie-->
         <operation name="getCategorieById">
             <documentation>Return une categorie</documentation>
             <input message="tns:getCategorieByIdRequest"/>
@@ -172,24 +172,24 @@
             <output message="tns:supprimerCategorieResponse"/>
         </operation>
 
-<!--Produit-->
+        <!--Produit-->
         <operation name="getProduitById">
             <documentation>Return un produit</documentation>
             <input message="tns:getProduitByIdRequest"/>
             <output message="tns:getProduitByIdResponse"/>
-        </operation>  
+        </operation>
 
         <operation name="getListProduits">
             <documentation>Return la liste des produits</documentation>
             <input message="tns:getListProduitsRequest"/>
             <output message="tns:getListProduitsResponse"/>
-        </operation> 
+        </operation>
 
         <operation name="addNewProduit">
             <documentation>Ajouter un produit</documentation>
             <input message="tns:ajouterProduitRequest"/>
             <output message="tns:ajouterProduitResponse"/>
-        </operation> 
+        </operation>
 
         <operation name="updateProduit">
             <documentation>editer un produit</documentation>
@@ -207,125 +207,105 @@
 
     <binding name="commercewsdlBinding" type="tns:commercewsdlPortType">
         <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
-<!--Categorie-->
+        <!--Categorie-->
         <operation name="getCategorieById">
-        <soap:operation soapAction="urn:commerceservicewsdl#getCategorieByIdServeur" style="rpc"/>
+            <soap:operation soapAction="urn:commerceservicewsdl#getCategorieByIdServeur" style="rpc"/>
             <input>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
 
         <operation name="getListCategories">
-        <soap:operation soapAction="urn:commerceservicewsdl#getListCategoriesServeur" style="rpc"/>
+            <soap:operation soapAction="urn:commerceservicewsdl#getListCategoriesServeur" style="rpc"/>
             <input>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
 
         <operation name="addNewCategorie">
-        <soap:operation soapAction="urn:commerceservicewsdl#addNewCategorieServeur" style="rpc"/>
+            <soap:operation soapAction="urn:commerceservicewsdl#addNewCategorieServeur" style="rpc"/>
             <input>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
 
         <operation name="updateCategorie">
-        <soap:operation soapAction="urn:commerceservicewsdl#updateCategorieServeur" style="rpc"/>
+            <soap:operation soapAction="urn:commerceservicewsdl#updateCategorieServeur" style="rpc"/>
             <input>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
 
         <operation name="deleteCategorie">
-        <soap:operation soapAction="urn:commerceservicewsdl#deleteCategorieServeur" style="rpc"/>
+            <soap:operation soapAction="urn:commerceservicewsdl#deleteCategorieServeur" style="rpc"/>
             <input>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
 
-<!--Produit-->
+        <!--Produit-->
         <operation name="getProduitById">
-        <soap:operation soapAction="urn:commerceservicewsdl#getProduitByIdServeur" style="rpc"/>      
+            <soap:operation soapAction="urn:commerceservicewsdl#getProduitByIdServeur" style="rpc"/>
             <input>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
 
         <operation name="getListProduits">
-        <soap:operation soapAction="urn:commerceservicewsdl#getListProduitsServeur" style="rpc"/>
+            <soap:operation soapAction="urn:commerceservicewsdl#getListProduitsServeur" style="rpc"/>
             <input>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
 
         <operation name="addNewProduit">
-        <soap:operation soapAction="urn:commerceservicewsdl#addNewProduitServeur" style="rpc"/>
+            <soap:operation soapAction="urn:commerceservicewsdl#addNewProduitServeur" style="rpc"/>
             <input>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
 
         <operation name="updateProduit">
-        <soap:operation soapAction="urn:commerceservicewsdl#updateProduitServeur" style="rpc"/>
+            <soap:operation soapAction="urn:commerceservicewsdl#updateProduitServeur" style="rpc"/>
             <input>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
 
         <operation name="deleteProduit">
-        <soap:operation soapAction="urn:commerceservicewsdl#deleteProduitServeur" style="rpc"/>
+            <soap:operation soapAction="urn:commerceservicewsdl#deleteProduitServeur" style="rpc"/>
             <input>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>
             <output>
-                <soap:body use="encoded" namespace="urn:commerceservicewsdl"
-                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                <soap:body use="encoded" namespace="urn:commerceservicewsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </output>
         </operation>
     </binding>

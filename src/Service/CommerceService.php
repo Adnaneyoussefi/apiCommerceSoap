@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Categorie;
 use App\Entity\Message;
 use App\Entity\Produit;
-use App\Entity\Categorie;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CommerceService
@@ -20,57 +20,76 @@ class CommerceService
     public function getCategorieById($id)
     {
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
-        
-        return $categorie;
+        if ($categorie != null) {
+            return $categorie;
+        }
     }
 
     public function getListCategories()
     {
         $categories = $this->entityManager->getRepository(Categorie::class)->findAll();
-        foreach($categories as $c) {
-            $c->setProduits($c->getProduits()->toArray());
+        if ($categories != null) {
+            foreach ($categories as $c) {
+                $c->setProduits($c->getProduits()->toArray());
+            }
         }
         return $categories;
     }
 
-    public function addNewCategorie($nom){
-        try{
-        $categorie = new Categorie();
-        $categorie->setNom($nom);
-        $this->entityManager->persist($categorie);
-        $this->entityManager->flush();
-        $message = new Message(1,"OK");
-        }
-        catch(\Exception $e){
-            $message = new Message(2,"KO");
-        }
-        return $message;
-    }
-
-    public function updateCategorie($id, $nom){
-        try{
-        $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
-        $categorie->setNom($nom);
-        $this->entityManager->persist($categorie);
-        $this->entityManager->flush();
-        $message = new Message(1,"OK");
-        }
-        catch(\Exception $e){
-            $message->setId(2)
-                    ->setMsg("KO");
+    public function addNewCategorie($nom)
+    {
+        try {
+            if (!isset($nom) || empty($nom)) {
+                $message = new Message("F-204", "le nom de la categorie est non valide");
+            } else {
+                $categorie = new Categorie();
+                $categorie->setNom($nom);
+                $this->entityManager->persist($categorie);
+                $this->entityManager->flush();
+                $message = new Message("201", "OK");
+            }
+        } catch (\Exception $e) {
+            $message = new Message("T-500", "Erreur dans la base de donnée");
         }
         return $message;
     }
 
-    public function deleteCategorie($id){
+    public function updateCategorie($id, $nom)
+    {
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
-        try{
-            $this->entityManager->remove($categorie);
+        if (!isset($id) || empty($id)) {
+            $message = new Message("F-204", "l'id de la categorie est non valide");
+        }
+        if (!isset($nom) || empty($nom)) {
+            $message = new Message("F-204", "le nom de la categorie est non valide");
+        } else if ($categorie == null) {
+            $message = new Message("T-204", "categorie n'existe pas");
+        } else {
+            $categorie->setNom($nom);
+            $this->entityManager->persist($categorie);
             $this->entityManager->flush();
-            $message = new Message(1,"OK");
+            $message = new Message("200", "OK");
         }
-        catch(\Exception $e){
-            $message = new Message(2,"KO");
+        return $message;
+    }
+
+    public function deleteCategorie($id)
+    {
+        try {
+            $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
+            if (empty($id)) {
+                $message = new Message("T-204", "id non valide");
+            } else if (is_numeric($id) != 1) {
+                $message = new Message("T-204", "id doit etre un nombre");
+            } else if ($categorie == null) {
+                $message = new Message("T-204", "categorie n'existe pas");
+            } else {
+                $this->entityManager->remove($categorie);
+                $this->entityManager->flush();
+                $message = new Message("200", "OK");
+            }
+        } catch (\Exception $e) {
+            //$message = new Message("T-500", "Erreur dans la base de donnée");
         }
         return $message;
     }
@@ -85,59 +104,107 @@ class CommerceService
     public function getListProduits()
     {
         $produits = $this->entityManager->getRepository(Produit::class)->findAll();
-        return $produits;
+        if ($produits != null) {
+            return $produits;
+        }
+
     }
 
-    public function addNewProduit($nom, $description, $prix, $image, $quantite, $categorie_id){
+    public function addNewProduit($nom, $description, $prix, $image, $quantite, $categorie_id)
+    {
         try {
-        $produit = new Produit();
-        $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
-        $produit->setNom($nom)
-                ->setDescription($description)
-                ->setPrix($prix)
-                ->setImage($image)
-                ->setQuantite($quantite)
-                ->setCategorie($categorie);
-        $this->entityManager->persist($produit);
-        $this->entityManager->flush();
-        $message = new Message(1,"OK");
-        }
-        catch(\Exception $e){
-            $message = new Message(2,"KO");
-        }
-        return $message;
-    }
-
-    public function updateProduit($id, $nom, $description, $prix, $image, $quantite, $categorie_id) {
-        try{
-            $produit = $this->entityManager->getRepository(Produit::class)->find($id);
             $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
-            $produit->setNom($nom)
+            if (!isset($nom) || empty($nom)) {
+                $message = new Message("F-204", "le nom est non valide");
+            } else if (!isset($description) || empty($description)) {
+                $message = new Message("F-204", "la description est non valide");
+            } else if (!isset($prix) || empty($prix)) {
+                $message = new Message("F-204", "le prix est non valide");
+            } else if (!isset($quantite) || empty($quantite)) {
+                $message = new Message("F-204", "le quantite est non valide");
+            } else if (!isset($categorie_id) || empty($categorie_id)) {
+                $message = new Message("F-204", "le categorie_id est non valide");
+            } else if ($categorie == null) {
+                $message = new Message("F-204", "la categorie n'existe pas");
+            } else {
+                $produit = new Produit();
+                $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
+                $produit->setNom($nom)
                     ->setDescription($description)
                     ->setPrix($prix)
                     ->setImage($image)
                     ->setQuantite($quantite)
                     ->setCategorie($categorie);
-            $this->entityManager->persist($produit);
-            $this->entityManager->flush();
-            $message = new Message(1,"OK");
-        }
-        catch(\Exception $e){
-            $message->setId(2)
-                    ->setMsg("KO");
+                $this->entityManager->persist($produit);
+                $this->entityManager->flush();
+                $message = new Message("201", "OK");
+            }
+        } catch (\Exception $e) {
+            $message = new Message("T-500", "Erreur dans la base de donnée");
         }
         return $message;
     }
 
-    public function deleteProduit($id) {
-        try{
+    public function updateProduit($id, $nom, $description, $prix, $image, $quantite, $categorie_id)
+    {
+        try {
+            $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
             $produit = $this->entityManager->getRepository(Produit::class)->find($id);
-            $this->entityManager->remove($produit);
-            $this->entityManager->flush();
-            $message = new Message(1,"OK");
+            if (!isset($id) || empty($id)) {
+                $message = new Message("F-204", "l'id est non valide");
+            } else if (is_numeric($id) != 1) {
+                $message = new Message("T-204", "id doit etre un nombre");
+            } else if (!isset($nom) || empty($nom)) {
+                $message = new Message("F-204", "le nom est non valide");
+            } else if (!isset($description) || empty($description)) {
+                $message = new Message("F-204", "la description est non valide");
+            } else if (!isset($prix) || empty($prix)) {
+                $message = new Message("F-204", "le prix est non valide");
+            } else if (is_numeric($prix) != 1) {
+                $message = new Message("T-204", "le prix doit etre un nombre");
+            } else if (!isset($quantite) || empty($quantite)) {
+                $message = new Message("F-204", "le quantite est non valide");
+            } else if (!isset($categorie_id) || empty($categorie_id)) {
+                $message = new Message("F-204", "le categorie_id est non valide");
+            } else if ($produit == null) {
+                $message = new Message("F-204", "le produit n'existe pas");
+            } else if ($categorie == null) {
+                $message = new Message("F-204", "la categorie n'existe pas");
+            } else {
+                $produit->setNom($nom)
+                    ->setDescription($description)
+                    ->setPrix($prix)
+                    ->setImage($image)
+                    ->setQuantite($quantite)
+                    ->setCategorie($categorie);
+                $this->entityManager->persist($produit);
+                $this->entityManager->flush();
+                $message = new Message("200", "OK");
+            }
+        } catch (\Exception $e) {
+            $message = new Message("T-500", "Erreur dans la base de donnée");
+
         }
-        catch(\Exception $e){
-            $message = new Message(2,"KO");
+        return $message;
+    }
+
+    public function deleteProduit($id)
+    {
+        $produit = $this->entityManager->getRepository(Produit::class)->find($id);
+        try {
+            if (empty($id)) {
+                $message = new Message("T-204", "id non valide");
+            } else if (is_numeric($id) != 1) {
+                $message = new Message("T-204", "id doit etre un nombre");
+            } else if ($produit == null) {
+                $message = new Message("T-204", "produit n'existe pas");
+            } else {
+                $this->entityManager->remove($produit);
+                $this->entityManager->flush();
+                $message = new Message("200", "OK");
+            }
+        } catch (\Exception $e) {
+            $message = new Message("T-500", "Erreur dans la base de donnée");
         }
         return $message;
     }
