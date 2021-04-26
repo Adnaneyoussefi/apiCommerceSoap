@@ -20,6 +20,7 @@ class CommerceService
     public function getCategorieById($id)
     {
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
+        
         return $categorie;
     }
 
@@ -53,9 +54,10 @@ class CommerceService
         $this->entityManager->persist($categorie);
         $this->entityManager->flush();
         $message = new Message(1,"OK");
-    }
+        }
         catch(\Exception $e){
-            $message = new Message(2,"KO");
+            $message->setId(2)
+                    ->setMsg("KO");
         }
         return $message;
     }
@@ -68,7 +70,7 @@ class CommerceService
             $message = new Message(1,"OK");
         }
         catch(\Exception $e){
-            //$message = new Message(2,"KO");
+            $message = new Message(2,"KO");
         }
         return $message;
     }
@@ -108,30 +110,31 @@ class CommerceService
 
     public function updateProduit($id, $nom, $description, $prix, $image, $quantite, $categorie_id) {
         try{
-        $produit = $this->entityManager->getRepository(Produit::class)->find($id);
-        $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
-        $produit->setNom($nom)
-                ->setDescription($description)
-                ->setPrix($prix)
-                ->setImage($image)
-                ->setQuantite($quantite)
-                ->setCategorie($categorie);
-        $this->entityManager->persist($produit);
-        $this->entityManager->flush();
-        $message = new Message(1,"OK");
+            $produit = $this->entityManager->getRepository(Produit::class)->find($id);
+            $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
+            $produit->setNom($nom)
+                    ->setDescription($description)
+                    ->setPrix($prix)
+                    ->setImage($image)
+                    ->setQuantite($quantite)
+                    ->setCategorie($categorie);
+            $this->entityManager->persist($produit);
+            $this->entityManager->flush();
+            $message = new Message(1,"OK");
         }
         catch(\Exception $e){
-            $message = new Message(2,"KO");
+            $message->setId(2)
+                    ->setMsg("KO");
         }
         return $message;
     }
 
     public function deleteProduit($id) {
         try{
-        $produit = $this->entityManager->getRepository(Produit::class)->find($id);
-        $this->entityManager->remove($produit);
-        $this->entityManager->flush();
-        $message = new Message(1,"OK");
+            $produit = $this->entityManager->getRepository(Produit::class)->find($id);
+            $this->entityManager->remove($produit);
+            $this->entityManager->flush();
+            $message = new Message(1,"OK");
         }
         catch(\Exception $e){
             $message = new Message(2,"KO");
