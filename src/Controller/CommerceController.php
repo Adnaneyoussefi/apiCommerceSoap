@@ -2,15 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Message;
 use App\Entity\Produit;
 use App\Entity\Categorie;
 use App\Service\CommerceService;
 use App\Repository\ProduitRepository;
+use Doctrine\DBAL\Driver\PDOException;
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\DBAL\Exception\ConnectionException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 
 class CommerceController extends AbstractController
 {
@@ -35,15 +39,22 @@ class CommerceController extends AbstractController
     /**
      * @Route("/go")
      */
-    public function afficher(CategorieRepository $productRepository)
+    public function afficher()
     {
-       /* $produit = $productRepository
-            ->find(1);*/
-       $produit = $productRepository->findAll();
-       foreach($produit as $c) {
-        $c->setProduits($c->getProduits()->toArray());
-    }
-        dd($produit);
-        return $this->json($categories);
+        try {
+            $categorie = $this->getDoctrine()->getRepository(Categorie::class)->find(35);
+                $this->getDoctrine()->getManager()->remove($categorie);
+                $this->getDoctrine()->getManager()->flush();
+                $message = new Message("200", "OK");
+            
+                
+        } catch (Message $e) {
+            dump($e);
+        }
+        catch(\Exception $e) {
+            dump($e);
+        }
+        
+        return $this->json("");       
     }
 }

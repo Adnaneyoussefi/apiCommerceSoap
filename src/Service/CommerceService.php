@@ -2,10 +2,12 @@
 
 namespace App\Service;
 
-use App\Entity\Categorie;
 use App\Entity\Message;
 use App\Entity\Produit;
+use App\Entity\Categorie;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\DBAL\Exception\ConnectionException;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 
 class CommerceService
 {
@@ -27,13 +29,19 @@ class CommerceService
 
     public function getListCategories()
     {
-        $categories = $this->entityManager->getRepository(Categorie::class)->findAll();
-        if ($categories != null) {
-            foreach ($categories as $c) {
-                $c->setProduits($c->getProduits()->toArray());
+        try {
+            $categories = $this->entityManager->getRepository(Categorie::class)->findAll();
+            if ($categories != null) {
+                foreach ($categories as $c) {
+                    $c->setProduits($c->getProduits()->toArray());
+                }
             }
+            $message = new Message("201", "OK");
+            return $categories;
+        } catch(ConnectionException $e) {
+            
         }
-        return $categories;
+        
     }
 
     public function addNewCategorie($nom)
@@ -48,27 +56,37 @@ class CommerceService
                 $this->entityManager->flush();
                 $message = new Message("201", "OK");
             }
-        } catch (\Exception $e) {
-            $message = new Message("T-500", "Erreur dans la base de donnée");
+        } catch (ConnectionException $e) {
+            $message = new Message("T-501", "Erreur de la connexion à la base de données");
+        }
+        catch(\Exception $e) {
+            $message = new Message("T-500", $e->getMessage());
         }
         return $message;
     }
 
     public function updateCategorie($id, $nom)
     {
-        $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
-        if (!isset($id) || empty($id)) {
-            $message = new Message("F-204", "l'id de la categorie est non valide");
+        try {
+            $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
+            if (!isset($id) || empty($id)) {
+                $message = new Message("F-204", "l'id de la categorie est non valide");
+            }
+            if (!isset($nom) || empty($nom)) {
+                $message = new Message("F-204", "le nom de la categorie est non valide");
+            } else if ($categorie == null) {
+                $message = new Message("T-204", "categorie n'existe pas");
+            } else {
+                $categorie->setNom($nom);
+                $this->entityManager->persist($categorie);
+                $this->entityManager->flush();
+                $message = new Message("200", "OK");
+            }
+        } catch (ConnectionException $e) {
+            $message = new Message("T-501", "Erreur de la connexion à la base de données");
         }
-        if (!isset($nom) || empty($nom)) {
-            $message = new Message("F-204", "le nom de la categorie est non valide");
-        } else if ($categorie == null) {
-            $message = new Message("T-204", "categorie n'existe pas");
-        } else {
-            $categorie->setNom($nom);
-            $this->entityManager->persist($categorie);
-            $this->entityManager->flush();
-            $message = new Message("200", "OK");
+        catch(\Exception $e) {
+            $message = new Message("T-500", $e->getMessage());
         }
         return $message;
     }
@@ -78,18 +96,25 @@ class CommerceService
         try {
             $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
             if (empty($id)) {
-                $message = new Message("T-204", "id non valide");
+                $message = new Message("F-204", "id non valide");
             } else if (is_numeric($id) != 1) {
-                $message = new Message("T-204", "id doit etre un nombre");
+                $message = new Message("F-204", "id doit etre un nombre");
             } else if ($categorie == null) {
-                $message = new Message("T-204", "categorie n'existe pas");
+                $message = new Message("F-204", "categorie n'existe pas");
             } else {
                 $this->entityManager->remove($categorie);
                 $this->entityManager->flush();
                 $message = new Message("200", "OK");
             }
-        } catch (\Exception $e) {
-            //$message = new Message("T-500", "Erreur dans la base de donnée");
+        } catch (ConnectionException $e) {
+            $message = new Message("T-501", "Erreur de la connexion à la base de données");
+        }
+        catch(ForeignKeyConstraintViolationException $e) {
+            $message = new Message("T-502", "Vous ne pouvez pas supprimé la catégorie parcequ'elle existe 
+            comme clé étrangère dans une autre entité");
+        }
+        catch(\Exception $e) {
+            $message = new Message("T-500", $e->getMessage());
         }
         return $message;
     }
@@ -118,9 +143,9 @@ class CommerceService
                 $message = new Message("F-204", "le nom est non valide");
             } else if (!isset($description) || empty($description)) {
                 $message = new Message("F-204", "la description est non valide");
-            } else if (!isset($prix) || empty($prix)) {
+            } else if (is_string($prix)) {
                 $message = new Message("F-204", "le prix est non valide");
-            } else if (!isset($quantite) || empty($quantite)) {
+            } else if (is_string($quantite)) {
                 $message = new Message("F-204", "le quantite est non valide");
             } else if (!isset($categorie_id) || empty($categorie_id)) {
                 $message = new Message("F-204", "le categorie_id est non valide");
@@ -139,8 +164,11 @@ class CommerceService
                 $this->entityManager->flush();
                 $message = new Message("201", "OK");
             }
-        } catch (\Exception $e) {
-            $message = new Message("T-500", "Erreur dans la base de donnée");
+        } catch (ConnectionException $e) {
+            $message = new Message("T-501", "Erreur de la connexion à la base de données");
+        }
+        catch (\Exception $e) {
+            $message = new Message("T-500", $e->getMessage());
         }
         return $message;
     }
@@ -181,17 +209,19 @@ class CommerceService
                 $this->entityManager->flush();
                 $message = new Message("200", "OK");
             }
-        } catch (\Exception $e) {
-            $message = new Message("T-500", "Erreur dans la base de donnée");
-
+        } catch (ConnectionException $e) {
+            $message = new Message("T-501", "Erreur de la connexion à la base de données");
+        }
+        catch (\Exception $e) {
+            $message = new Message("T-500", $e->getMessage());
         }
         return $message;
     }
 
     public function deleteProduit($id)
     {
-        $produit = $this->entityManager->getRepository(Produit::class)->find($id);
         try {
+            $produit = $this->entityManager->getRepository(Produit::class)->find($id);
             if (empty($id)) {
                 $message = new Message("T-204", "id non valide");
             } else if (is_numeric($id) != 1) {
@@ -203,8 +233,15 @@ class CommerceService
                 $this->entityManager->flush();
                 $message = new Message("200", "OK");
             }
-        } catch (\Exception $e) {
-            $message = new Message("T-500", "Erreur dans la base de donnée");
+        } catch (ConnectionException $e) {
+            $message = new Message("T-501", "Erreur de la connexion à la base de données");
+        }
+        catch(ForeignKeyConstraintViolationException $e) {
+            $message = new Message("T-502", "Vous ne pouvez pas supprimé le produit parcequ'il existe 
+            dans une autre entité");
+        }
+        catch (\Exception $e) {
+            $message = new Message("T-500", $e->getMessage());
         }
         return $message;
     }

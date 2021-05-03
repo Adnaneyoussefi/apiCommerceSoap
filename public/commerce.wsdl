@@ -15,8 +15,8 @@
 
             <xsd:complexType name="Message">
                 <xsd:all>
-                    <xsd:element name="code" type="xsd:string"/>
                     <xsd:element name="msg" type="xsd:string"/>
+                    <xsd:element name="code" type="xsd:string"/>    
                 </xsd:all>
             </xsd:complexType>
 
