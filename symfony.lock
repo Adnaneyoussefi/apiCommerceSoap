@@ -97,6 +97,9 @@
     "nikic/php-parser": {
         "version": "v4.10.4"
     },
+    "php2wsdl/php2wsdl": {
+        "version": "0.6.1"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -349,5 +352,8 @@
     },
     "twig/twig": {
         "version": "v3.3.0"
+    },
+    "wingu/reflection": {
+        "version": "1.0.6"
     }
 }

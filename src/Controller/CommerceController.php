@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Entity\Categorie;
+use PHP2WSDL\PHPClass2WSDL;
 use App\Service\CommerceService;
 use App\Repository\ProduitRepository;
 use App\Repository\CategorieRepository;
@@ -15,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CommerceController extends AbstractController
 {
     /**
-     * @Route("/soap")
+     * @Route("/soap",name = "soap")
      */
     public function index(CommerceService $commerceService)
     {
@@ -35,15 +36,8 @@ class CommerceController extends AbstractController
     /**
      * @Route("/go")
      */
-    public function afficher(CategorieRepository $productRepository)
+    public function afficher(CommerceService $commerceService)
     {
-       /* $produit = $productRepository
-            ->find(1);*/
-       $produit = $productRepository->findAll();
-       foreach($produit as $c) {
-        $c->setProduits($c->getProduits()->toArray());
-    }
-        dd($produit);
-        return $this->json($categories);
+
     }
 }

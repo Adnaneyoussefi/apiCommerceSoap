@@ -17,7 +17,11 @@ class CommerceService
     }
 
     //Categorie
-    public function getCategorieById($id)
+    /**
+     * @param int $id
+     * @return Categorie
+     */
+    public function getCategorieById(int $id): Categorie
     {
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
         if ($categorie != null) {
@@ -25,8 +29,10 @@ class CommerceService
         }
 
     }
-
-    public function getListCategories()
+    /**
+     * @return array
+     */
+    public function getListCategories(): array
     {
         $categories = $this->entityManager->getRepository(Categorie::class)->findAll();
         if ($categories != null) {
@@ -36,8 +42,11 @@ class CommerceService
         }
         return $categories;
     }
-
-    public function addNewCategorie($nom)
+    /**
+     * @param string $nom
+     * @return Message
+     */
+    public function addNewCategorie(string $nom): Message
     {
         try {
             if (!isset($nom) || empty($nom)) {
@@ -54,8 +63,14 @@ class CommerceService
         }
         return $message;
     }
-
-    public function updateCategorie($id, $nom)
+    /**
+     * updateCategorie
+     *
+     * @param  int $id
+     * @param  string $nom
+     * @return Message
+     */
+    public function updateCategorie(int $id, string $nom): Message
     {
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
         if (!isset($id) || empty($id)) {
@@ -73,8 +88,11 @@ class CommerceService
         }
         return $message;
     }
-
-    public function deleteCategorie($id)
+    /**
+     * @param int $id
+     * @return Message
+     */
+    public function deleteCategorie(int $id): Message
     {
         try {
             $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
@@ -90,19 +108,25 @@ class CommerceService
                 $message = new Message("200", "OK");
             }
         } catch (\Exception $e) {
-            //$message = new Message("T-500", "Erreur dans la base de donnée");
+            $message = new Message("T-500", "Erreur dans la base de donnée");
         }
         return $message;
     }
 
     //Produit
-    public function getProduitById($id)
+    /**
+     * @param int $id
+     * @return Produit
+     */
+    public function getProduitById(int $id): Produit
     {
         $produit = $this->entityManager->getRepository(Produit::class)->find($id);
         return $produit;
     }
-
-    public function getListProduits()
+    /**
+     * @return array
+     */
+    public function getListProduits(): array
     {
         $produits = $this->entityManager->getRepository(Produit::class)->findAll();
         if ($produits != null) {
@@ -110,8 +134,16 @@ class CommerceService
         }
 
     }
-
-    public function addNewProduit($nom, $description, $prix, $image, $quantite, $categorie_id)
+    /**
+     * @param string $nom
+     * @param string $description
+     * @param float $prix
+     * @param string $image
+     * @param int $quantite
+     * @param int $categorie_id
+     * @return Message
+     */
+    public function addNewProduit(string $nom, string $description, float $prix, string $image, int $quantite, int $categorie_id): Message
     {
         try {
             $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
@@ -145,8 +177,17 @@ class CommerceService
         }
         return $message;
     }
-
-    public function updateProduit($id, $nom, $description, $prix, $image, $quantite, $categorie_id)
+    /**
+     * @param int $id
+     * @param string $nom
+     * @param string $description
+     * @param float $prix
+     * @param string $image
+     * @param int $quantite
+     * @param int $categorie_id
+     * @return Message
+     */
+    public function updateProduit(int $id, string $nom, string $description, float $prix, string $image, int $quantite, int $categorie_id): Message
     {
         try {
             $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
@@ -188,8 +229,11 @@ class CommerceService
         }
         return $message;
     }
-
-    public function deleteProduit($id)
+    /**
+     * @param int $id
+     * @return Message
+     */
+    public function deleteProduit(int $id): Message
     {
         $produit = $this->entityManager->getRepository(Produit::class)->find($id);
         try {

@@ -17,37 +17,37 @@ class Produit
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nom;
+    private string $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $description;
+    private string $description;
 
     /**
      * @ORM\Column(type="float", length=255)
      */
-    private $prix;
+    private float $prix;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image;
+    private string $image;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $quantite;
+    private int  $quantite;
 
     /**
      * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="produits")
      */
-    private $categorie;
+    private  $categorie;
 
     /**
      * @ORM\OneToMany(targetEntity=DetailsCommande::class, mappedBy="produit")

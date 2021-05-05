@@ -17,17 +17,17 @@ class Categorie
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nom;
+    private string $nom;
 
     /**
      * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="categorie")
      */
-    private $produits;
+    private  $produits;
 
     public function __construct()
     {
@@ -58,14 +58,26 @@ class Categorie
     {
         return $this->produits;
     }
-
+    
+    /**
+     * setProduits
+     *
+     * @param  mixed $produits
+     * @return self
+     */
     public function setProduits(array $produits): self
     {
         $this->produits = $produits;
 
         return $this;
     }
-
+    
+    /**
+     * addProduit
+     *
+     * @param  mixed $produit
+     * @return self
+     */
     public function addProduit(Produit $produit): self
     {
         if (!$this->produits->contains($produit)) {
@@ -75,7 +87,13 @@ class Categorie
 
         return $this;
     }
-
+    
+    /**
+     * removeProduit
+     *
+     * @param  mixed $produit
+     * @return self
+     */
     public function removeProduit(Produit $produit): self
     {
         if ($this->produits->removeElement($produit)) {
