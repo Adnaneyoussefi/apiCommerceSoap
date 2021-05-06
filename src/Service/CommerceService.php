@@ -19,15 +19,21 @@ class CommerceService
     }
 
     //Categorie
-    public function getCategorieById($id)
+    /**
+     * @param int $id
+     * @return Categorie
+     */
+    public function getCategorieById(int $id): Categorie
     {
         $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
         if ($categorie != null) {
             return $categorie;
         }
     }
-
-    public function getListCategories()
+    /**
+     * @return array
+     */
+    public function getListCategories(): array
     {
         try {
             $categories = $this->entityManager->getRepository(Categorie::class)->findAll();
@@ -43,8 +49,11 @@ class CommerceService
         }
         
     }
-
-    public function addNewCategorie($nom)
+    /**
+     * @param string $nom
+     * @return Message
+     */
+    public function addNewCategorie(string $nom): Message
     {
         try {
             if (!isset($nom) || empty($nom)) {
@@ -64,8 +73,14 @@ class CommerceService
         }
         return $message;
     }
-
-    public function updateCategorie($id, $nom)
+    /**
+     * updateCategorie
+     *
+     * @param  int $id
+     * @param  string $nom
+     * @return Message
+     */
+    public function updateCategorie(int $id, string $nom): Message
     {
         try {
             $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
@@ -90,8 +105,11 @@ class CommerceService
         }
         return $message;
     }
-
-    public function deleteCategorie($id)
+    /**
+     * @param int $id
+     * @return Message
+     */
+    public function deleteCategorie(int $id): Message
     {
         try {
             $categorie = $this->entityManager->getRepository(Categorie::class)->find($id);
@@ -120,21 +138,35 @@ class CommerceService
     }
 
     //Produit
-    public function getProduitById($id)
+    /**
+     * @param int $id
+     * @return Produit
+     */
+    public function getProduitById(int $id): Produit
     {
         $produit = $this->entityManager->getRepository(Produit::class)->find($id);
         return $produit;
     }
-
-    public function getListProduits()
+    /**
+     * @return array
+     */
+    public function getListProduits(): array
     {
         $produits = $this->entityManager->getRepository(Produit::class)->findAll();
         if ($produits != null) {
             return $produits;
         }
     }
-
-    public function addNewProduit($nom, $description, $prix, $image, $quantite, $categorie_id)
+    /**
+     * @param string $nom
+     * @param string $description
+     * @param float $prix
+     * @param string $image
+     * @param int $quantite
+     * @param int $categorie_id
+     * @return Message
+     */
+    public function addNewProduit(string $nom, string $description, float $prix, string $image, int $quantite, int $categorie_id): Message
     {
         try {
             $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
@@ -171,8 +203,17 @@ class CommerceService
         }
         return $message;
     }
-
-    public function updateProduit($id, $nom, $description, $prix, $image, $quantite, $categorie_id)
+    /**
+     * @param int $id
+     * @param string $nom
+     * @param string $description
+     * @param float $prix
+     * @param string $image
+     * @param int $quantite
+     * @param int $categorie_id
+     * @return Message
+     */
+    public function updateProduit(int $id, string $nom, string $description, float $prix, string $image, int $quantite, int $categorie_id): Message
     {
         try {
             $categorie = $this->entityManager->getRepository(Categorie::class)->find($categorie_id);
@@ -216,8 +257,11 @@ class CommerceService
         }
         return $message;
     }
-
-    public function deleteProduit($id)
+    /**
+     * @param int $id
+     * @return Message
+     */
+    public function deleteProduit(int $id): Message
     {
         try {
             $produit = $this->entityManager->getRepository(Produit::class)->find($id);

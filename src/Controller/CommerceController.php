@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Message;
 use App\Entity\Produit;
 use App\Entity\Categorie;
+use PHP2WSDL\PHPClass2WSDL;
 use App\Service\CommerceService;
 use App\Repository\ProduitRepository;
 use Doctrine\DBAL\Driver\PDOException;
@@ -19,7 +20,7 @@ use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 class CommerceController extends AbstractController
 {
     /**
-     * @Route("/soap")
+     * @Route("/soap",name = "soap")
      */
     public function index(CommerceService $commerceService)
     {
@@ -56,5 +57,6 @@ class CommerceController extends AbstractController
         }
         
         return $this->json("");       
+
     }
 }
