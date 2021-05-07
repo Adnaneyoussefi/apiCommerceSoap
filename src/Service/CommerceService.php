@@ -153,7 +153,7 @@ class CommerceService
     public function getListProduits(): array
     {
         $produits = $this->entityManager->getRepository(Produit::class)->findAll();
-        if ($produits != null && !empty($produit)) {
+        if ($produits != null || !empty($produit)) {
             return $produits;
         }
         else
